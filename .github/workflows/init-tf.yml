@@ -1,0 +1,23 @@
+name: Initialize Technical File
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run init script
+        env:
+          GH_TOKEN: ${{ secrets.TF_MDAI_TOKEN }}
+        run: python .github/scripts/init_structure.py
